@@ -6,7 +6,7 @@ import db from "./db.js";
 import authRouter from "./routers/authRouter.js";
 
 import { info } from "./logging/logging.js";
-import operationRouter from "./routers/opeationRouter.js";
+import operationRouter from "./routers/operationRouter.js";
 
 
 dotenv.config();
