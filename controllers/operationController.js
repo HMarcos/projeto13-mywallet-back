@@ -9,7 +9,7 @@ export async function getOperations(req, res) {
 
     try {
         let query = { userId: user._id };
-        const filter = { projection: { value: 1, type: 1, date: 1, _id: 0 } };
+        const filter = { projection: { value: 1, type: 1, date: 1, description: 1, _id: 0 } };
         const operations = await db.collection("operations").find(query, filter).toArray();
 
         const balance = user.balance;
@@ -36,6 +36,7 @@ export async function setOperation(req, res) {
         let query = {
             value: operation.value,
             type: operation.type,
+            description: operation.description,
             date: dayjs().format("DD/MM"),
             userId: user._id
         }
