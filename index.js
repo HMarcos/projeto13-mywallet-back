@@ -6,6 +6,7 @@ import db from "./db.js";
 import authRouter from "./routers/authRouter.js";
 
 import { info } from "./logging/logging.js";
+import operationRouter from "./routers/opeationRouter.js";
 
 
 dotenv.config();
@@ -16,6 +17,7 @@ app.use(cors());
 
 // Routers
 app.use(authRouter);
+app.use(operationRouter);
 
 // Listen the application
 const PORT = process.env.PORT || 5000;
