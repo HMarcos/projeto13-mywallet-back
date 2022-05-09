@@ -58,3 +58,22 @@ export async function singIn(req, res) {
     }
 
 }
+
+export async function logout(req, res) {
+
+    const { authorization } = req.headers;
+    const token = authorization.replace("Bearer", "").trim();
+
+    try {
+        const query = {token};
+        await db.collection("sessions").deleteOne(query);
+        
+        console.log(debug("Logout: Session finished..."));
+
+        return res.status(200).send("Logged out user...");
+        
+    } catch (error) {
+        console.log(error("Server Internal error... \n"), e);
+        return res.sendStatus(500);
+    }
+}
