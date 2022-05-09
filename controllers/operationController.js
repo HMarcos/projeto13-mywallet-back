@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 
 import db from "./../db.js";
 
-import { debug } from "./../logging/logging.js";
+import { debug, error } from "./../logging/logging.js";
 
 export async function getOperations(req, res) {
     const { user } = res.locals;
@@ -34,7 +34,7 @@ export async function setOperation(req, res) {
 
     try {
         let query = {
-            value: operation.value,
+            value: Number(operation.value),
             type: operation.type,
             description: operation.description,
             date: dayjs().format("DD/MM"),
@@ -47,10 +47,10 @@ export async function setOperation(req, res) {
 
         let updateOperation = null;
         if (operation.type === "incoming") {
-            updateOperation = { $inc: { balance: operation.value } };
+            updateOperation = { $inc: { balance: parseFloat(operation.value) } };
         }
         else {
-            updateOperation = { $inc: { balance: -operation.value } };
+            updateOperation = { $inc: { balance: parseFloat(-operation.value) } };
         }
 
         query = { _id: user._id };
@@ -60,7 +60,7 @@ export async function setOperation(req, res) {
 
         return res.status(201).send("The operation was registered...");
 
-    } catch (error) {
+    } catch (e) {
         console.log(error("Server Internal error... \n"), e);
         return res.sendStatus(500);
     }
